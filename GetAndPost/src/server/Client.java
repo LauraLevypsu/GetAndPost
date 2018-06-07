@@ -1,0 +1,10 @@
+package server;
+
+public class Client
+{
+    public static void main(String[] args)
+    {
+        //Test commit, client
+    }
+
+}
