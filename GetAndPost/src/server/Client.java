@@ -5,6 +5,30 @@ import java.net.*;
 
 public class Client
 {
+
+    private void sendGet(OutputStream out) {
+        try {
+            out.write("GET /default\r\n".getBytes());
+            out.write("User-Agent: Mozilla/5.0\r\n".getBytes());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private String getResponse(BufferedReader in) {
+        try {
+            String inputLine;
+            StringBuilder response = new StringBuilder();
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine).append("\n");
+            }
+            return response.toString();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return "";
+    }
+
     public static void main(String[] args)
     {
         HTTPClient hc = new HTTPClient();
@@ -26,6 +50,13 @@ public class Client
                     sendGet(out);
                     System.out.println(getResponse(br));
                 }
+
+
+                URL url = new URL(serverInet.getAddress().toString());
+
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                con.setRequestMethod("POST");
+
             }
             catch(IOException e)
             {
