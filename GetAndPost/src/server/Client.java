@@ -66,7 +66,7 @@ public class Client
             catch(IOException e)
             {
                 e.printStackTrace();
-                System.out.println("break b4 url obj created");
+                System.out.println("break before url obj created");
             }
         }
 

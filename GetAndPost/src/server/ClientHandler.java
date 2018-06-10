@@ -29,7 +29,7 @@ public class ClientHandler implements Runnable
             StringTokenizer tokenizer = new StringTokenizer(header);
             String httpMethod = tokenizer.nextToken();
             
-            if(httpMethod.equals("GET"))
+            if(httpMethod.equalsIgnoreCase("GET"))
             {
                 System.out.println("Get!");
                 String httpQueryString = tokenizer.nextToken();
@@ -39,9 +39,12 @@ public class ClientHandler implements Runnable
                         .append("</html>");
                 sendResponse(s, 200, responseBuffer.toString());
             }
+            else if(httpMethod.equalsIgnoreCase("POST")){
+                System.out.println("post!");
+            }
             else
             {
-                System.out.println("Unrecognized method :(");
+                System.out.println("Unrecognized method :( "+httpMethod);
                 sendResponse(s, 405, "Not allowed");
                 //Something about adding String httpQueryString = tokenizer.nextToken() again somewhere I think?
                 //See book, ch4, Building Simple HTTP Server, about 2/3 down before sendResponse() method

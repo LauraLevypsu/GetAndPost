@@ -34,7 +34,7 @@ public class Server
             }
         }
 
-        public void handleRequest(Socket socket) {
+        /*public void handleRequest(Socket socket) {
             try (BufferedReader in = new BufferedReader(
                     new InputStreamReader(socket.getInputStream()));) {
                 String headerLine = in.readLine();
@@ -60,9 +60,9 @@ public class Server
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
+        }*/
 
-        public void sendResponse(Socket socket,
+        /*public void sendResponse(Socket socket,
                                  int statusCode, String responseString) {
             String statusLine;
             String serverHeader = "Server: WebServer\r\n";
@@ -94,7 +94,7 @@ public class Server
             } catch (IOException ex) {
                 // Handle exception
             }
-        }
+        }*/
 
     }
 }
