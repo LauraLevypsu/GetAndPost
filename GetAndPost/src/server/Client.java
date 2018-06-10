@@ -2,6 +2,7 @@ package server;
 
 import java.io.*;
 import java.net.*;
+import java.util.*;
 
 public class Client
 {
@@ -14,7 +15,7 @@ public class Client
             ex.printStackTrace();
         }
     }
-
+    
     private String getResponse(BufferedReader in) {
         try {
             String inputLine;
@@ -82,6 +83,37 @@ public class Client
                 e.printStackTrace();
             }
         }
+        
+        private void sendPost() throws Exception{
+            
+            try {
+                InetAddress serverInet = InetAddress.getLocalHost();
+                int port = 8080;
+                String protocol = "http";
+                String host = serverInet.getHostName();
+                String path = "/";
+                URL url = new URL(protocol, host, port, path);
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+                con.setRequestMethod("POST");
+                con.setRequestProperty("User-Agent", "Mozilla/5.0");
+                con.setRequestProperty("Content-Type", "text/html");
+                con.setRequestProperty("Content-Length", "81");
+
+                Scanner input = new Scanner(System.in);
+                System.out.print("Diary Entry: ");
+                String postEntry = input.nextLine();
+
+                con.setDoOutput(true);
+                DataOutputStream DOS = new DataOutputStream(con.getOutputStream());
+                DOS.writeBytes(postEntry);
+                DOS.flush();
+                DOS.close();
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }
 
         private String getResponse(BufferedReader br)
         {
@@ -101,6 +133,21 @@ public class Client
                 e.printStackTrace();
             }
             return "";
+        }
+        
+        private String postResponse(BufferedReader br){
+            try {
+                String input;
+                StringBuilder response = new StringBuilder();
+                while((input = br.readLine()) != null) {
+                    System.out.println(input);
+                    response.append(input).append("\n");
+                }
+                return response.toString();
+            }
+            catch (IOException e){
+                e.printStackTrace();
+            }
         }
     }
 }
