@@ -40,7 +40,7 @@ public class ClientHandler implements Runnable
                 sendResponse(s, 200, responseBuffer.toString());
             }
             else if(httpMethod.equalsIgnoreCase("POST")){
-                System.out.println("post!");
+                handlePost();
             }
             else
             {
@@ -54,6 +54,10 @@ public class ClientHandler implements Runnable
         {
             e.printStackTrace();
         }
+    }
+
+    public void handlePost(){
+        System.out.println("post! :)");
     }
 
     private void sendResponse(Socket s, int statusCode, String response)

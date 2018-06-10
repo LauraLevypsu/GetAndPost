@@ -6,25 +6,46 @@ import java.util.*;
 
 public class Client
 {
+    private static void sendGETrequest(URL url) throws IOException {
 
-    private void sendGet(OutputStream out) {
-        try {
-            out.write("GET /default\r\n".getBytes());
-            out.write("User-Agent: Mozilla/5.0\r\n".getBytes());
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }   
-    private static void sendGET() throws IOException {
-        URL obj;
-        obj = new URL();
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("GET");
         int responseCode = con.getResponseCode();
         System.out.println("GET ResponceCode: "+ responseCode);
     }
 
-    private String getResponse(BufferedReader in) {
+    private static void sendPOSTRequest(URL url) throws Exception{
+
+        try {
+            InetAddress serverInet = InetAddress.getLocalHost();
+            int port = 8080;
+            String protocol = "http";
+            String host = serverInet.getHostName();
+            String path = "/";
+            //URL url = new URL(protocol, host, port, path);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+            con.setRequestMethod("POST");
+            con.setRequestProperty("User-Agent", "Mozilla/5.0");
+            con.setRequestProperty("Content-Type", "text/html");
+            con.setRequestProperty("Content-Length", "81");
+
+            Scanner input = new Scanner(System.in);
+            System.out.print("Diary Entry: ");
+            String postEntry = input.nextLine();
+
+            con.setDoOutput(true);
+            DataOutputStream DOS = new DataOutputStream(con.getOutputStream());
+            DOS.writeBytes(postEntry);
+            DOS.flush();
+            DOS.close();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private static String getResponse(BufferedReader in) {
         try {
             String inputLine;
             StringBuilder response = new StringBuilder();
@@ -68,8 +89,20 @@ public class Client
                 String path = "/";
                 URL url = new URL(protocol, host, port, path);
 
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                con.setRequestMethod("POST");
+                //HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                System.out.println("enter get or post, please");
+
+                Scanner scan= new Scanner(System.in);
+
+                if(scan.next().equalsIgnoreCase("post")){
+                    sendPOSTRequest(url);
+                }
+                else if(scan.next().equalsIgnoreCase("get")){
+                    sendGETrequest(url);
+                }
+                else{
+                    System.out.println("invalid request");
+                }
 
             }
             catch(IOException e)
@@ -92,7 +125,7 @@ public class Client
             }
         }
         
-        private void sendPost() throws Exception{
+        /*private void sendPOSTRequest() throws Exception{
             
             try {
                 InetAddress serverInet = InetAddress.getLocalHost();
@@ -120,10 +153,10 @@ public class Client
             }
             catch(Exception e){
                 e.printStackTrace();
-            }
+            }*/
         }
 
-        private String getResponse(BufferedReader br)
+        /*private String getResponse(BufferedReader br)
         {
             try
             {
@@ -141,9 +174,10 @@ public class Client
                 e.printStackTrace();
             }
             return "";
-        }
+        }*/
         
-        private String postResponse(BufferedReader br){
+        private void postResponse(BufferedReader br){
+            String returnString="null";
             try {
                 String input;
                 StringBuilder response = new StringBuilder();
@@ -151,7 +185,7 @@ public class Client
                     System.out.println(input);
                     response.append(input).append("\n");
                 }
-                return response.toString();
+                returnString=response.toString();
             }
             catch (IOException e){
                 e.printStackTrace();
