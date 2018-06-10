@@ -31,13 +31,14 @@ public class ClientHandler implements Runnable
             
             if(httpMethod.equalsIgnoreCase("GET"))
             {
-                System.out.println("Get!");
-                String httpQueryString = tokenizer.nextToken();
-                StringBuilder responseBuffer = new StringBuilder();
-                responseBuffer.append("<html><h1>WebServer Home Page</h1><br>")
-                        .append("<b>Welcome to my web server!</b><BR>")
-                        .append("</html>");
-                sendResponse(s, 200, responseBuffer.toString());
+                handleGet(s);
+//                System.out.println("Get!");
+//                String httpQueryString = tokenizer.nextToken();
+//                StringBuilder responseBuffer = new StringBuilder();
+//                responseBuffer.append("<html><h1>WebServer Home Page</h1><br>")
+//                        .append("<b>Welcome to my web server!</b><BR>")
+//                        .append("</html>");
+//                sendResponse(s, 200, responseBuffer.toString());
             }
             else if(httpMethod.equalsIgnoreCase("POST")){
                 handlePost();
@@ -55,6 +56,15 @@ public class ClientHandler implements Runnable
             e.printStackTrace();
         }
     }
+    private void handleGet(Socket s) {
+        System.out.println("Get!");
+        StringBuilder responseBuffer = new StringBuilder();
+        responseBuffer.append("<html><h1>WebServer Home Page</h1><br>")
+                .append("<b>Welcome to my web server!</b><BR>")
+                .append("</html>");
+        sendResponse(s, 200, responseBuffer.toString());
+    }
+
 
     public void handlePost(){
         System.out.println("post! :)");
