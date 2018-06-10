@@ -41,8 +41,11 @@ public class Client
             System.out.println("Client starting...");
             try
             {
-                InetAddress serverInet = InetAddress.getByName("127.0.0.1");
-                Socket conn = new Socket(serverInet, 8080); //try 3000 or 8080 if 80 doesn't work
+                String ipString = "127.0.0.1";
+                //InetAddress serverInet = InetAddress.getByName(ipString);
+                InetAddress serverInet = InetAddress.getLocalHost();
+                int port = 8080;
+                Socket conn = new Socket(serverInet, port); //try 3000 or 8080 if 80 doesn't work
                 
                 try(OutputStream out = conn.getOutputStream();
                         BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream())))
@@ -51,8 +54,10 @@ public class Client
                     System.out.println(getResponse(br));
                 }
 
-
-                URL url = new URL(serverInet.getAddress().toString());
+                String protocol = "http";
+                String host = serverInet.getHostName();
+                String path = "/";
+                URL url = new URL(protocol, host, port, path);
 
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
                 con.setRequestMethod("POST");
@@ -61,6 +66,7 @@ public class Client
             catch(IOException e)
             {
                 e.printStackTrace();
+                System.out.println("break b4 url obj created");
             }
         }
 
@@ -85,6 +91,7 @@ public class Client
                 StringBuilder response = new StringBuilder();
                 while((input = br.readLine()) != null)
                 {
+                    System.out.println(input);
                     response.append(input).append("\n");
                 }
                 return response.toString();
