@@ -14,8 +14,16 @@ public class Client
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+    }   
+    private static void sendGET() throws IOException {
+        URL obj;
+        obj = new URL();
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        con.setRequestMethod("GET");
+        int responseCode = con.getResponseCode();
+        System.out.println("GET ResponceCode: "+ responseCode);
     }
-    
+
     private String getResponse(BufferedReader in) {
         try {
             String inputLine;
