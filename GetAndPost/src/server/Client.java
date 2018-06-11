@@ -16,7 +16,7 @@ public class Client
 
     private static void sendPOSTRequest(URL url) throws Exception{
 
-        try {
+        //try {
             InetAddress serverInet = InetAddress.getLocalHost();
             int port = 8080;
             String protocol = "http";
@@ -39,10 +39,10 @@ public class Client
             DOS.writeBytes(postEntry);
             DOS.flush();
             DOS.close();
-        }
+        /*}
         catch(Exception e){
             e.printStackTrace();
-        }
+        }*/
     }
 
     private static String getResponse(BufferedReader in) {
@@ -94,21 +94,19 @@ public class Client
 
                 Scanner scan= new Scanner(System.in);
 
-                if(scan.next().equalsIgnoreCase("post")){
+                if(scan.next().equalsIgnoreCase("post"))
                     sendPOSTRequest(url);
-                }
-                else if(scan.next().equalsIgnoreCase("get")){
+                else if(scan.next().equalsIgnoreCase("get"))
                     sendGETrequest(url);
-                }
-                else{
-                    System.out.println("invalid request");
-                }
+                else System.out.println("invalid request");
 
             }
             catch(IOException e)
             {
                 e.printStackTrace();
                 System.out.println("break before url obj created");
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 
@@ -124,72 +122,26 @@ public class Client
                 e.printStackTrace();
             }
         }
+    }
         
-        /*private void sendPOSTRequest() throws Exception{
-            
-            try {
-                InetAddress serverInet = InetAddress.getLocalHost();
-                int port = 8080;
-                String protocol = "http";
-                String host = serverInet.getHostName();
-                String path = "/";
-                URL url = new URL(protocol, host, port, path);
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-
-                con.setRequestMethod("POST");
-                con.setRequestProperty("User-Agent", "Mozilla/5.0");
-                con.setRequestProperty("Content-Type", "text/html");
-                con.setRequestProperty("Content-Length", "81");
-
-                Scanner input = new Scanner(System.in);
-                System.out.print("Diary Entry: ");
-                String postEntry = input.nextLine();
-
-                con.setDoOutput(true);
-                DataOutputStream DOS = new DataOutputStream(con.getOutputStream());
-                DOS.writeBytes(postEntry);
-                DOS.flush();
-                DOS.close();
-            }
-            catch(Exception e){
-                e.printStackTrace();
-            }*/
-        }
-
-        /*private String getResponse(BufferedReader br)
+    private void postResponse(BufferedReader br)
+    {
+        String returnString="null";
+        try
         {
-            try
+            String input;
+            StringBuilder response = new StringBuilder();
+            while((input = br.readLine()) != null)
             {
-                String input;
-                StringBuilder response = new StringBuilder();
-                while((input = br.readLine()) != null)
-                {
-                    System.out.println(input);
-                    response.append(input).append("\n");
-                }
-                return response.toString();
+                System.out.println(input);
+                response.append(input).append("\n");
             }
-            catch(IOException e)
-            {
-                e.printStackTrace();
-            }
-            return "";
-        }*/
-        
-        private void postResponse(BufferedReader br){
-            String returnString="null";
-            try {
-                String input;
-                StringBuilder response = new StringBuilder();
-                while((input = br.readLine()) != null) {
-                    System.out.println(input);
-                    response.append(input).append("\n");
-                }
-                returnString=response.toString();
-            }
-            catch (IOException e){
-                e.printStackTrace();
-            }
+            returnString=response.toString();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
         }
     }
 }
+
