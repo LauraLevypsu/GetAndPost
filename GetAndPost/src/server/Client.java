@@ -14,8 +14,8 @@ public class Client
         System.out.println("GET ResponceCode: "+ responseCode);
     }
 
-    private static void sendPOSTRequest(URL url) throws Exception{
-
+    private static void sendPOSTRequest(URL url) throws Exception
+    {
         int port = 8080;
         int responseCode;
         InetAddress serverInet = InetAddress.getLocalHost();
@@ -39,13 +39,15 @@ public class Client
         DOS.writeBytes(postEntry);
         DOS.flush();
         DOS.close();
+        System.out.println("dos closed");
         
-        responseCode = con.getResponseCode();
+        responseCode = con.getResponseCode(); //this throws exception
+        System.out.println("Response code gotten");
         System.out.println("Sending 'POST' request to localhost...");
         System.out.println("Diary Entry: " + postEntry);
         System.out.println("Response Code: " + responseCode);
-        
-        BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream())); //if responseCode doesn't throw exception, this will
         StringBuilder response = new StringBuilder();
         String output;
         while((output = br.readLine()) != null){
@@ -100,7 +102,7 @@ public class Client
                 URL url = new URL(protocol, host, port, path);
 
                 //HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                System.out.println("enter get or post, please");
+                System.out.print("Get or post? ");
 
                 Scanner scan= new Scanner(System.in);
 
