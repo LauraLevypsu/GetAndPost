@@ -41,7 +41,7 @@ public class ClientHandler implements Runnable
 //                sendResponse(s, 200, responseBuffer.toString());
             }
             else if(httpMethod.equalsIgnoreCase("POST")){
-                handlePost();
+                handlePost(s);
             }
             else
             {
@@ -66,8 +66,13 @@ public class ClientHandler implements Runnable
     }
 
 
-    public void handlePost(){
+    public void handlePost(Socket s){
         System.out.println("post! :)");
+        StringBuilder responseBuffer = new StringBuilder();
+        responseBuffer.append("<html><h1>WebServer Home Page</h1><br>")
+                .append("<b>Welcome to my web server!</b><BR>")
+                .append("</html>");
+        sendResponse(s, 200, responseBuffer.toString());
     }
 
     private void sendResponse(Socket s, int statusCode, String response)
