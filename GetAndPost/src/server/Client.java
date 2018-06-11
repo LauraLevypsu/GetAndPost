@@ -16,33 +16,43 @@ public class Client
 
     private static void sendPOSTRequest(URL url) throws Exception{
 
-        //try {
-            InetAddress serverInet = InetAddress.getLocalHost();
-            int port = 8080;
-            String protocol = "http";
-            String host = serverInet.getHostName();
-            String path = "/";
-            //URL url = new URL(protocol, host, port, path);
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        int port = 8080;
+        int responseCode;
+        InetAddress serverInet = InetAddress.getLocalHost();
+        String protocol = "http";
+        String host = serverInet.getHostName();
+        String path = "/";
+        //URL url = new URL(protocol, host, port, path);
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
-            con.setRequestMethod("POST");
-            con.setRequestProperty("User-Agent", "Mozilla/5.0");
-            con.setRequestProperty("Content-Type", "text/html");
-            con.setRequestProperty("Content-Length", "81");
+        con.setRequestMethod("POST");
+        con.setRequestProperty("User-Agent", "Mozilla/5.0");
+        con.setRequestProperty("Content-Type", "text/html");
+        con.setRequestProperty("Content-Length", "81");
 
-            Scanner input = new Scanner(System.in);
-            System.out.print("Diary Entry: ");
-            String postEntry = input.nextLine();
+        Scanner input = new Scanner(System.in);
+        System.out.print("Diary Entry: ");
+        String postEntry = input.nextLine();
 
-            con.setDoOutput(true);
-            DataOutputStream DOS = new DataOutputStream(con.getOutputStream());
-            DOS.writeBytes(postEntry);
-            DOS.flush();
-            DOS.close();
-        /*}
-        catch(Exception e){
-            e.printStackTrace();
-        }*/
+        con.setDoOutput(true);
+        DataOutputStream DOS = new DataOutputStream(con.getOutputStream());
+        DOS.writeBytes(postEntry);
+        DOS.flush();
+        DOS.close();
+        
+        responseCode = con.getResponseCode();
+        System.out.println("Sending 'POST' request to localhost...");
+        System.out.println("Diary Entry: " + postEntry);
+        System.out.println("Response Code: " + responseCode);
+        
+        BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        StringBuilder response = new StringBuilder();
+        String output;
+        while((output = br.readLine()) != null){
+            response.append(output);
+        }
+        
+        br.close();
     }
 
     private static String getResponse(BufferedReader in) {
